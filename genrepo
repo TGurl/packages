@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+if [ $# -eq 0 ]
+then
+	echo "No argument is given."
+	exit 1
+fi
+
+
+repo=$1
+
+dest="/data/www/repos/$repo/x86_64"
+
+db=$1".db.tar.gz"
+fi=$1".files.tar.gz"
+
+echo ":: Removing old databases, if they exist."
+if [ -f $db ]; then
+	rm $db
+fi
+
+if [ -f $fi ]; then
+	rm $fi
+fi
+
+echo ":: Generating new databases."
+repo-add $db *.pkg.tar.zst
+
+#echo ":: Uploading new databases."
+#sshpass -p cyber008 scp $db geertje@shione:$dest
+#sshpass -p cyber008 scp $fi geertje@shione:$dest
+
+#echo ":: Checking repo"
+#sudo pacman -Syy
+#pacman -Sl $repo
